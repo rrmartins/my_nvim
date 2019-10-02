@@ -17,7 +17,10 @@ Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jistr/vim-nerdtree-tabs'
+
+Plug 'tpope/vim-fugitive'
 
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
@@ -65,13 +68,26 @@ set clipboard=unnamed
 set expandtab
 set shiftwidth=2
 
-let mapleader="\<space>"
+set autoread                              "Reload files changed outside vim
+
+" ================ Indentation ======================
+
+set autoindent
+set smartindent
+set smarttab
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
+set expandtab
+
+" let mapleader="\<space>"
+let mapleader="ld"
 
 nnoremap <leader>; A;<esc>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <C-p> :Files<cr>
 nnoremap <C-f> :Ag<space>
-nnoremap <C-\> :NERDTreeToggle<cr>
+nnoremap <C-]> :NERDTreeToggle<cr>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -101,7 +117,10 @@ let g:NERDTreeIndicatorMapCustom = {
     \ 'Ignored'   : '☒',
     \ "Unknown"   : "?"
     \ }
-let g:NERDTreeShowIgnoredStatus = 1
+" let g:NERDTreeShowIgnoredStatus = 1
+let g:NERDTreeUseSimpleIndicator = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 
 autocmd vimenter * NERDTree
 autocmd StdinReadPre * let s:std_in=1
