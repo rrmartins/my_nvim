@@ -108,6 +108,8 @@ call plug#begin(expand('~/.config/nvim/plugged'))
     source ~/.config/nvim/local_bundles.vim
   endif
 
+  Plug 'wakatime/vim-wakatime'
+
 call plug#end()
 
 " colorscheme dracula
