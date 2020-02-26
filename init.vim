@@ -81,15 +81,14 @@ set tabstop=2
 set expandtab
 
 " let mapleader="\<space>"
-let mapleader="ld"
+let mapleader="l"
 
-nnoremap <leader>; A;<esc>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <C-p> :Files<cr>
 nnoremap <C-f> :Ag<space>
 nnoremap <C-]> :NERDTreeToggle<cr>
 nnoremap <C-e> :e<cr>
-nnoremap <C-n> :noh<esc>
+nnoremap <C-o> :noh<esc>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
