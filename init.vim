@@ -3,7 +3,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'sheerun/vim-polyglot'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Numkil/ag.nvim'
+Plug 'mileszs/ack.vim'
 Plug 'cohama/lexima.vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -16,11 +16,16 @@ Plug 'roxma/nvim-yarp'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
 
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jistr/vim-nerdtree-tabs'
 
 Plug 'tpope/vim-fugitive'
+
+Plug 'w0rp/ale'
+Plug 'vim-airline/vim-airline'
 
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
@@ -40,6 +45,16 @@ Plug 'thoughtbot/vim-rspec'
 " Vim configuration files for Elixir http://elixir-lang.org/
 Plug 'elixir-lang/vim-elixir'
 
+Plug  'ctrlpvim/ctrlp.vim', {'on': '<Plug>CtrlP'}
+
+Plug 'itchyny/lightline.vim'
+Plug 'itchyny/vim-gitbranch'
+
+" Plug 'autozimu/LanguageClient-neovim', {
+"    \ 'branch': 'next',
+"    \ 'do': 'bash install.sh',
+"    \ }
+
 call plug#end()
 
 colorscheme dracula
@@ -47,7 +62,7 @@ set background=dark
 
 
 "" Enable hidden buffers
-set hidden
+"" set hidden
 
 set number
 set relativenumber
@@ -84,8 +99,10 @@ set expandtab
 let mapleader="l"
 
 nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <leader>pi :PlugInstall<cr>
 nnoremap <C-p> :Files<cr>
-nnoremap <C-f> :Ag<space>
+nnoremap <C-f> :Ack<space>
+nnoremap <C-r> :Ack <space> **/*.rb
 nnoremap <C-]> :NERDTreeToggle<cr>
 nnoremap <C-e> :e<cr>
 nnoremap <C-o> :noh<esc>
@@ -94,6 +111,14 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+nnoremap <silent> <Plug>CtrlPDefault     :CtrlP<CR>
+nnoremap <silent> <Plug>CtrlPMixed       :CtrlPMixed<CR>
+nnoremap <silent> <Plug>CtrlPMRU         :CtrlPMRU<CR>
+
+nmap <silent> <Space>f       <Plug>CtrlPDefault
+nmap <silent> <Space>m       <Plug>CtrlPMixed
+nmap <silent> <Space>r       <Plug>CtrlPMRU
 
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/snippets'
@@ -104,9 +129,11 @@ autocmd BufEnter * call ncm2#enable_for_buffer()
 " IMPORTANT: :help Ncm2PopupOpen for more information
 set completeopt=noinsert,menuone,noselect
 
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
 
 " nerdtree
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
     \ "Untracked" : "✭",
@@ -115,14 +142,45 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Deleted"   : "✖",
     \ "Dirty"     : "✗",
     \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
+    \ 'Ignored'   : 'ig',
     \ "Unknown"   : "?"
     \ }
-" let g:NERDTreeShowIgnoredStatus = 1
+let g:NERDTreeGitSttausShowIgnored = 0
+let g:NERDTreeIgnore=['\.DS_Store$', '\.git$']
 let g:NERDTreeUseSimpleIndicator = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeDirArrows = 1
 
 autocmd vimenter * NERDTree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+let g:lightline = {
+      \ 'colorscheme': 'darcula',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
+" Set specific linters
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'ruby': ['rubocop'],
+\}
+
+" Only run linters named in ale_linters settings.
+let g:ale_linters_explicit = 1 
+let g:airline#extensions#ale#enabled = 1
+
+
+" let g:LanguageClient_serverCommands = {
+"    \ 'ruby': ['~/.rvm/gems/default/gems/solargraph-0.39.8/bin/solargraph', 'stdio'],
+"    \ }
+
+" nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
+" nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
