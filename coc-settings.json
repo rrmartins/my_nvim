@@ -1,0 +1,11 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "markdown",
+    "typescript",
+    "typescriptreact",
+    "javascript",
+    "elixir"
+  ],
+  "elixir.pathToElixirLS": "~/.config/coc/extensions/node_modules/coc-elixir/els-release/language_server.sh"
+}
