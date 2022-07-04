@@ -7,5 +7,6 @@
     "javascript",
     "elixir"
   ],
-  "elixir.pathToElixirLS": "~/.config/coc/extensions/node_modules/coc-elixir/els-release/language_server.sh"
+  "coc.preferences.jumpCommand": "vsplit",
+  "elixir.pathToElixirLS": "/Users/rrmartins/.elixir-ls/release/language_server.sh"
 }

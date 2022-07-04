@@ -115,7 +115,7 @@ Plug 'xolox/vim-misc'
 Plug 'xolox/vim-session'
 
 " elixir
-Plug 'elixir-editors/vim-elixir'
+Plug 'elixir-lang/vim-elixir'
 Plug 'carlosgaldino/elixir-snippets'
 
 Plug 'APZelos/blamer.nvim'
@@ -129,39 +129,7 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'ryanoasis/vim-devicons'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} 
 
-Plug 'danielwsx64/vim-tmux-runner'
 " checkhealth nvim-treesitter
-
-Plug 'noib3/nvim-compleet'
-
-Plug 'petertriho/nvim-scrollbar'
-
-Plug 'natecraddock/sessions.nvim'
-
-" rust
-" Vim racer
-Plug 'racer-rust/vim-racer'
-
-" Rust.vim
-Plug 'rust-lang/rust.vim'
-
-" Async.vim
-Plug 'prabirshrestha/async.vim'
-
-" Vim lsp
-Plug 'prabirshrestha/vim-lsp'
-
-" Asyncomplete.vim
-Plug 'prabirshrestha/asyncomplete.vim'
-
-" Asyncomplete lsp.vim
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-
-
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
-
-Plug 'wbthomason/packer.nvim'
-Plug 'neovim/nvim-lspconfig'
 
 call plug#end()
 
@@ -211,7 +179,6 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
-" set foldmethod=indent
 
 " let mapleader="\<space>"
 let mapleader="l"
@@ -228,9 +195,8 @@ nnoremap <C-t> :CtrlSFToggle<CR>
 inoremap <C-t> <Esc>:CtrlSFToggle<CR>
 
 nnoremap <C-]> :NERDTreeToggle<cr><esc>
-nnoremap <leader>nt :NERDTreeToggle<cr><esc>
 nnoremap <C-e> :e<cr>
-nnoremap <C-o> :noh<cr><esc>
+nnoremap <C-o> :noh<esc>
 nnoremap <C-s> :w<cr><esc>
 nnoremap <C-Q> :qa<cr><esc>
 nnoremap <C-q> :q<cr><esc>
@@ -249,11 +215,11 @@ nmap <silent> <Space>m       <Plug>CtrlPMixed
 nmap <silent> <Space>r       <Plug>CtrlPMRU
 
 " run tests
-nnoremap <leader>rs :TestFile<CR>
-nnoremap <leader>rn :TestNearest<CR>
-nnoremap <leader>rl :TestLast<CR>
-nnoremap <leader>ra :TestSuite<CR>
-nnoremap <leader>rv :TestVisit<CR>
+nnoremap <Leader>rs :TestFile<CR>
+nnoremap <Leader>rn :TestNearest<CR>
+nnoremap <Leader>rl :TestLast<CR>
+nnoremap <Leader>ra :TestSuite<CR>
+nnoremap <Leader>rv :TestVisit<CR>
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gr <Plug>(coc-references)
@@ -275,64 +241,9 @@ nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
-nnoremap <leader>sn :SessionsSave! ~/.nvim/sessions<cr><esc>
-nnoremap <leader>sso :SessionsLoad <cr><esc>
-
-" rust
-" Vim racer
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
-
-"" Open current line on GitHub
-nnoremap <Leader>o :.Gbrowse<CR>
-
-"" Split
-noremap <Leader>h :<C-u>split<CR>
-noremap <Leader>v :<C-u>vsplit<CR>
-
-"" Git
-noremap <Leader>ga :Gwrite<CR>
-noremap <Leader>gc :Git commit --verbose<CR>
-noremap <Leader>gsh :Git push<CR>
-noremap <Leader>gll :Git pull<CR>
-noremap <Leader>gs :Git<CR>
-noremap <Leader>gb :Git blame<CR>
-noremap <Leader>gd :Gvdiffsplit<CR>
-noremap <Leader>gr :GRemove<CR>
-
-noremap <leader>tc :za
-noremap <leader>oaf :zR
-noremap <leader>caf zM
-noremap <leader>oc zo
-noremap <leader>cc zc
-" za: Toggle code folding.
-" zR: Open all folds.
-" zM: Close all folds.
-" zo: Open current fold.
-" zc: Close current fold
-"
-
-"" bufferline
-nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
-nnoremap <silent><leader>2 <Cmd>BufferLineGoToBuffer 2<CR>
-nnoremap <silent><leader>3 <Cmd>BufferLineGoToBuffer 3<CR>
-nnoremap <silent><leader>4 <Cmd>BufferLineGoToBuffer 4<CR>
-nnoremap <silent><leader>5 <Cmd>BufferLineGoToBuffer 5<CR>
-nnoremap <silent><leader>6 <Cmd>BufferLineGoToBuffer 6<CR>
-nnoremap <silent><leader>7 <Cmd>BufferLineGoToBuffer 7<CR>
-nnoremap <silent><leader>8 <Cmd>BufferLineGoToBuffer 8<CR>
-nnoremap <silent><leader>9 <Cmd>BufferLineGoToBuffer 9<CR>
-nnoremap <silent><leader>bn :BufferLineMoveNext<CR>
-nnoremap <silent><leader>bp :BufferLineMovePrev<CR>
-
-
-let g:session_autosave = 'yes'
-
 nnoremap <expr> <leader>n g:NERDTree.IsOpen() ? ':NERDTreeClose<CR>' : @% == '' ? ':NERDTree<CR>' : ':NERDTreeFind<CR>'
 
-let test#strategy = "vtr"
+let test#strategy = "neoterm"
 
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir = '~/.config/nvim/snippets'
@@ -378,16 +289,6 @@ let g:NERDTreeIgnore=['\.DS_Store$', '\.git$', 'node_modules$', 'bin$', 'coverag
 let g:NERDTreeUseSimpleIndicator = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeDirArrows = 1
-let g:NERDTreeShowHidden=1
-"" NERDTree configuration
-let g:NERDTreeChDirMode=2
-let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
-let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 50
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite,*node_modules/
-
 
 autocmd vimenter * NERDTree
 autocmd StdinReadPre * let s:std_in=1
@@ -434,12 +335,6 @@ augroup vimrc-ruby
   autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
   autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent
 augroup END
-
-augroup tmuxrunner
-  autocmd!
-  autocmd VimEnter * VtrAttachToPane
-augroup END
-
 
 let g:tagbar_type_ruby = {
     \ 'kinds' : [
@@ -589,50 +484,10 @@ let g:airline#extensions#tabline#enabled = 1
 
 let g:airline_powerline_fonts = 1
 
-""" vim-devicons
-" loading the plugin
-let g:webdevicons_enable = 1
-" adding the flags to NERDTree
-let g:webdevicons_enable_nerdtree = 1
-" adding the custom source to unite
-let g:webdevicons_enable_unite = 1
-" adding the column to vimfiler
-let g:webdevicons_enable_vimfiler = 1
-" adding to vim-airline's tabline
-let g:webdevicons_enable_airline_tabline = 1
-" adding to vim-airline's statusline
-let g:webdevicons_enable_airline_statusline = 1
-" ctrlp glyphs
-let g:webdevicons_enable_ctrlp = 1
-" adding to vim-startify screen
-let g:webdevicons_enable_startify = 1
-" adding to flagship's statusline
-let g:webdevicons_enable_flagship_statusline = 1
-" turn on/off file node glyph decorations (not particularly useful)
-let g:WebDevIconsUnicodeDecorateFileNodes = 1
-" use double-width(1) or single-width(0) glyphs
-" only manipulates padding, has no effect on terminal or set(guifont) font
-let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
-" whether or not to show the nerdtree brackets around flags
-let g:webdevicons_conceal_nerdtree_brackets = 1
-" the amount of space to use after the glyph character (default ' ')
-let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-" Force extra padding in NERDTree so that the filetype icons line up vertically
-let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-" Adding the custom source to denite
-let g:webdevicons_enable_denite = 1
-" The amount of space to use after the glyph character in vim-airline tabline(default '')
-let g:WebDevIconsTabAirLineAfterGlyphPadding = ' '
-" The amount of space to use before the glyph character in vim-airline tabline(default ' ')
-let g:WebDevIconsTabAirLineBeforeGlyphPadding = ' '
-let g:WebDevIconsOS = 'Darwin'
-
-
-
 lua <<EOF
   require('nvim-treesitter.configs').setup {
-    -- One of "all"
-    ensure_installed = "all",
+    -- One of "all", "maintained" (parsers with maintainers), or a list of languages
+    ensure_installed = "maintained",
 
     -- Install languages synchronously (only applied to `ensure_installed`)
     sync_install = false,
@@ -662,222 +517,3 @@ lua <<EOF
 
 require('telescope').load_extension('fzf')
 EOF
-
-lua <<EOF
-  require("packer").startup(function()
-    use({
-      "noib3/nvim-compleet",
-      config = function()
-        require("compleet").setup()
-      end,
-      run = "./install.sh release",
-    })
-  end)
-EOF
-
-lua <<EOF
-  require("scrollbar").setup({
-    show = true,
-    show_in_active_only = false,
-    set_highlights = true,
-    folds = 1000, -- handle folds, set to number to disable folds if no. of lines in buffer exceeds this
-    max_lines = false, -- disables if no. of lines in buffer exceeds this
-    handle = {
-        text = " ",
-        color = nil,
-        cterm = nil,
-        highlight = "CursorColumn",
-        hide_if_all_visible = true, -- Hides handle if all lines are visible
-    },
-    marks = {
-        Search = {
-            text = { "-", "=" },
-            priority = 0,
-            color = nil,
-            cterm = nil,
-            highlight = "Search",
-        },
-        Error = {
-            text = { "-", "=" },
-            priority = 1,
-            color = nil,
-            cterm = nil,
-            highlight = "DiagnosticVirtualTextError",
-        },
-        Warn = {
-            text = { "-", "=" },
-            priority = 2,
-            color = nil,
-            cterm = nil,
-            highlight = "DiagnosticVirtualTextWarn",
-        },
-        Info = {
-            text = { "-", "=" },
-            priority = 3,
-            color = nil,
-            cterm = nil,
-            highlight = "DiagnosticVirtualTextInfo",
-        },
-        Hint = {
-            text = { "-", "=" },
-            priority = 4,
-            color = nil,
-            cterm = nil,
-            highlight = "DiagnosticVirtualTextHint",
-        },
-        Misc = {
-            text = { "-", "=" },
-            priority = 5,
-            color = nil,
-            cterm = nil,
-            highlight = "Normal",
-        },
-    },
-    excluded_buftypes = {
-        "terminal",
-    },
-    excluded_filetypes = {
-        "prompt",
-        "TelescopePrompt",
-    },
-    autocmd = {
-        render = {
-            "BufWinEnter",
-            "TabEnter",
-            "TermEnter",
-            "WinEnter",
-            "CmdwinLeave",
-            "TextChanged",
-            "VimResized",
-            "WinScrolled",
-        },
-        clear = {
-            "BufWinLeave",
-            "TabLeave",
-            "TermLeave",
-            "WinLeave",
-        },
-    },
-    handlers = {
-        diagnostic = true,
-        search = false, -- Requires hlslens to be loaded, will run require("scrollbar.handlers.search").setup() for you
-    },
-  })
-EOF
-
-lua <<EOF
-  require("sessions").setup({
-    events = { "WinEnter" },
-    session_filepath = ".nvim/session",
-  })
-EOF
-
-lua <<EOF
-  require('bufferline').setup{
-    options = {
-        numbers = "both", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
-        close_command = "bdelete! %d",       -- can be a string | function, see "Mouse actions"
-        right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
-        left_mouse_command = "buffer %d",    -- can be a string | function, see "Mouse actions"
-        middle_mouse_command = nil,          -- can be a string | function, see "Mouse actions"
-        mode = "tabs", -- set to "tabs" to only show tabpages instead
-        name_formatter = function(buf)  -- buf contains a "name", "path" and "bufnr"
-          -- remove extension from markdown files for example
-          if buf.name:match('%.md') then
-            return vim.fn.fnamemodify(buf.name, ':t:r')
-          end
-        end,
-        max_name_length = 18,
-        max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
-        tab_size = 18,
-        diagnostics = "coc",-- "nvim_lsp" | "coc",
-        diagnostics_update_in_insert = false,
-        diagnostics_indicator = function(count, level, diagnostics_dict, context)
-          return "("..count..")"
-        end,
-        color_icons = true, -- whether or not to add the filetype icon highlights
-        show_buffer_icons = true, -- disable filetype icons for buffers
-        show_buffer_close_icons = true,
-        show_buffer_default_icon = true, -- whether or not an unrecognised filetype should show a default icon
-        show_close_icon = true,
-        show_tab_indicators = true,
-        persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-        -- can also be a table containing 2 custom separators
-        -- [focused and unfocused]. eg: { '|', '|' }
-        separator_style = "slant", -- "slant" | "thick" | "thin" | { 'any', 'any' },
-        enforce_regular_tabs = true,
-        always_show_bufferline = true,
-      }
-  }
-EOF
-
-lua << EOF
-  local use = require('packer').use
-  require('packer').startup(function()
-    use 'wbthomason/packer.nvim' -- Package manager
-    use 'neovim/nvim-lspconfig' -- Configurations for Nvim LSP
-  end)
-
-  require('lspconfig').pyright.setup{}
-  require('lspconfig').elixirls.setup{
-    cmd = { "/Users/rrmartins/.elixir-ls/release/language_server.sh" }; 
-  }
-
-EOF
-
-" lua <<EOF
-"   require('compleet').setup({
-"     ui = {
-"       menu = {
-"         -- Where to anchor the completion menu, either "cursor" or "match".
-"         anchor = "cursor",
-
-"         -- Whether to automatically show the menu every time there are
-"         -- completions available.
-"         autoshow = true,
-
-"         -- The maximum height (in rows) of the completion menu.
-"         max_height = nil,
-
-"         border = {
-"           -- Whether to add a border to the completion menu's floating window.
-"           enable = false,
-
-"           -- Any of the style formats listed in `:h nvim_open_win`.
-"           style = "single"
-"         },
-"       },
-
-"       details = {
-"         border = {
-"           -- Whether to add a border to the details's floating window.
-"           enable = true,
-
-"           -- Same as `ui.menu.border.style`.
-"           style = {
-"             "",
-"             "",
-"             "",
-"             {" ", "CompleetDetails"},
-"           }
-"         },
-"       },
-
-"       hint = {
-"         -- Whether to show completion hints.
-"         enable = false,
-"       }
-"     },
-
-"     completion = {
-"       -- Whether to enable completion while deleting characters.
-"       while_deleting = false,
-"     },
-
-"     sources = {
-"       lipsum = {
-"         enable = false,
-"       },
-"     }
-"   })
-" EOF
