@@ -15,7 +15,7 @@ set cmdheight=2
 
 
 
-let g:coc_node_path = trim(system('which node'))
+" let g:coc_node_path = trim(system('which node'))
 
 let g:vim_bootstrap_langs = "elixir"
 let g:vim_bootstrap_editor = "neovim"
@@ -97,7 +97,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
+" Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
 
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
@@ -163,7 +163,11 @@ Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
 Plug 'wbthomason/packer.nvim'
 Plug 'neovim/nvim-lspconfig'
 
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 call plug#end()
+
+filetype plugin indent on
 
 syntax on
 
@@ -191,6 +195,8 @@ set incsearch
 set ignorecase
 set smartcase
 
+set autowrite
+
 set mouse=a mousemodel=popup
 set mouse=a mousemodel=popup_setpos
 
@@ -211,7 +217,8 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
-" set foldmethod=indent
+set foldmethod=indent
+set cursorline
 
 " let mapleader="\<space>"
 let mapleader="l"
@@ -255,12 +262,12 @@ nnoremap <leader>rl :TestLast<CR>
 nnoremap <leader>ra :TestSuite<CR>
 nnoremap <leader>rv :TestVisit<CR>
 
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gr <Plug>(coc-references)
-nnoremap <C-d> <Plug>(coc-defintion)
+" nmap <silent> gd <Plug>(coc-definition)
+" nmap <silent> gr <Plug>(coc-references)
+" nnoremap <C-d> <Plug>(coc-defintion)
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-nnoremap <silent> <leader>co  :<C-u>CocList outline<CR>
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+" nnoremap <silent> <leader>co  :<C-u>CocList outline<CR>
 
 " Telescope
 " Find files using Telescope command-line sugar.
@@ -304,9 +311,9 @@ noremap <Leader>gr :GRemove<CR>
 
 noremap <leader>tc :za
 noremap <leader>oaf :zR
-noremap <leader>caf zM
-noremap <leader>oc zo
-noremap <leader>cc zc
+noremap <leader>caf :zM
+noremap <leader>oc :zo
+noremap <leader>cc :zc
 " za: Toggle code folding.
 " zR: Open all folds.
 " zM: Close all folds.
@@ -358,6 +365,13 @@ let g:ctrlp_show_hidden = 1
 
 " Blamer
 let g:blamer_prefix = ' > '
+
+
+" session management
+let g:session_directory = "~/.config/nvim/session"
+let g:session_autoload = "yes"
+let g:session_autosave = "yes"
+let g:session_command_aliases = 1
 
 " nerdtree
 let g:NERDTreeGitStatusIndicatorMapCustom = {
@@ -451,6 +465,27 @@ let g:tagbar_type_ruby = {
         \ 'F:singleton methods'
     \ ]
 \ }
+
+" Golang
+map <C-n> :cnext<CR>
+map <C-m> :cprevious<CR>
+nnoremap <leader>a :cclose<CR>
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4 
+
+let g:go_fmt_command = "goimports"
+let g:go_list_type = "quickfix"
+let g:go_addtags_transform = "camelcase"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+
+
 
 " RSpec.vim mappings
 map <Leader>t :call RunCurrentSpecFile()<CR>
@@ -629,6 +664,27 @@ let g:WebDevIconsOS = 'Darwin'
 
 
 
+"""
+" Ralis
+"""
+
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" let g:coc_global_extensions = ['coc-solargraph']
+
+
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
+
 lua <<EOF
   require('nvim-treesitter.configs').setup {
     -- One of "all"
@@ -639,6 +695,10 @@ lua <<EOF
 
     -- List of parsers to ignore installing
     ignore_install = { "javascript" },
+
+    indent = {
+      enable = true
+    },
 
     highlight = {
       -- `false` will disable the whole extension
@@ -775,7 +835,7 @@ EOF
 lua <<EOF
   require('bufferline').setup{
     options = {
-        numbers = "both", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
+        numbers = "bufferd", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
         close_command = "bdelete! %d",       -- can be a string | function, see "Mouse actions"
         right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
         left_mouse_command = "buffer %d",    -- can be a string | function, see "Mouse actions"
@@ -790,7 +850,7 @@ lua <<EOF
         max_name_length = 18,
         max_prefix_length = 15, -- prefix used when a buffer is de-duplicated
         tab_size = 18,
-        diagnostics = "coc",-- "nvim_lsp" | "coc",
+        diagnostics = "nvim_lsp",-- "nvim_lsp" | "coc",
         diagnostics_update_in_insert = false,
         diagnostics_indicator = function(count, level, diagnostics_dict, context)
           return "("..count..")"
@@ -807,6 +867,10 @@ lua <<EOF
         separator_style = "slant", -- "slant" | "thick" | "thin" | { 'any', 'any' },
         enforce_regular_tabs = true,
         always_show_bufferline = true,
+        indicator = {
+          icon = '▎', -- this should be omitted if indicator style is not 'icon'
+          style = 'underline' -- 'icon' | 'underline' | 'none',
+        }
       }
   }
 EOF
@@ -823,7 +887,61 @@ lua << EOF
     cmd = { "/Users/rrmartins/.elixir-ls/release/language_server.sh" }; 
   }
 
+  -- require('lspconfig').gopls.setup{}
+  require('lspconfig').grammarly.setup{}
+  require('lspconfig').golangci_lint_ls.setup{}
+
+  require('lspconfig').solargraph.setup{}
+
+  local nvim_lsp = require('lspconfig')
+
+  -- Use an on_attach function to only map the following keys
+  -- after the language server attaches to the current buffer
+  local on_attach = function(client, bufnr)
+    local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+    local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+    --Enable completion triggered by <c-x><c-o>
+    buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+    -- Mappings.
+    local opts = { noremap=true, silent=true }
+
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+    buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+    buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+    buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+    buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+    buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+    buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+    buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+    buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+    buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+    buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+    buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+    buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+    buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+    buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+    buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+
+  end
+
+  -- Use a loop to conveniently call 'setup' on multiple servers and
+  -- map buffer local keybindings when the language server attaches
+  local servers = { "solargraph" }
+  for _, lsp in ipairs(servers) do
+    nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+    }
+  end
+
 EOF
+
 
 " lua <<EOF
 "   require('compleet').setup({

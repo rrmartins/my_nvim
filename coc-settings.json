@@ -5,8 +5,16 @@
     "typescript",
     "typescriptreact",
     "javascript",
-    "elixir"
+    "elixir",
+    "ruby",
+    "go"
   ],
   "coc.preferences.jumpCommand": "vsplit",
-  "elixir.pathToElixirLS": "/Users/rrmartins/.elixir-ls/release/language_server.sh"
+  "elixir.pathToElixirLS": "/Users/rrmartins/.elixir-ls/release/language_server.sh",
+  "solargraph.completion": true,
+  "solargraph.formatting": true,
+  "solargraph.definitions": true,
+  "solargraph.folding": true,
+  "solargraph.useBundler": true,
+  "codeLens.enable": true
 }
