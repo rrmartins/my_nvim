@@ -7,11 +7,13 @@
     "javascript",
     "elixir",
     "ruby",
-    "go"
+    "go",
+    "python"
   ],
   "coc.preferences.jumpCommand": "vsplit",
   "elixir.pathToElixirLS": "/Users/rrmartins/.elixir-ls/release/language_server.sh",
   "solargraph.completion": true,
+  "solargraph.commandPath": "/opt/homebrew/bin/solargraph",
   "solargraph.formatting": true,
   "solargraph.definitions": true,
   "solargraph.folding": true,

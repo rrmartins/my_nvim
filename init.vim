@@ -19,7 +19,7 @@ set cmdheight=2
 
 let g:vim_bootstrap_langs = "elixir"
 let g:vim_bootstrap_editor = "neovim"
-let g:vim_bootstrap_theme = "dracula"
+let g:vim_bootstrap_theme = "molokai"
 let g:vim_bootstrap_frams = ""
 
 call plug#begin('~/.config/nvim/plugged')
@@ -40,6 +40,7 @@ Plug 'majutsushi/tagbar'
 Plug 'Yggdroot/indentLine'
 Plug 'editor-bootstrap/vim-bootstrap-updater'
 Plug 'tpope/vim-rhubarb' " required by fugitive to :Gbrowse
+Plug 'windwp/nvim-spectre'
 
 let g:make = 'gmake'
 if exists('make')
@@ -91,13 +92,11 @@ Plug 'elixir-editors/vim-elixir'
 
 Plug 'slashmili/alchemist.vim'
 
-Plug  'ctrlpvim/ctrlp.vim', {'on': '<Plug>CtrlP'}
-
 Plug 'itchyny/lightline.vim'
 Plug 'itchyny/vim-gitbranch'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-" Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
+Plug 'amiralies/coc-elixir', {'do': 'yarn install && yarn prepack'}
 
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
@@ -157,13 +156,29 @@ Plug 'prabirshrestha/asyncomplete.vim'
 " Asyncomplete lsp.vim
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+Plug 'akinsho/bufferline.nvim', { 'branch': 'main' }
 
 Plug 'wbthomason/packer.nvim'
 Plug 'neovim/nvim-lspconfig'
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+Plug 'arcticicestudio/nord-vim', { 'on':  'NERDTreeToggle' }
+
+Plug 'davidhalter/jedi-vim'
+Plug 'pappasam/coc-jedi', { 'do': 'yarn install --frozen-lockfile && yarn build', 'branch': 'main' }
+
+" Github Copilot
+Plug 'github/copilot.vim'
+
+
+" Alacritty
+Plug 'Rigellute/rigel'
+Plug 'pangloss/vim-javascript'
+
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'williamboman/nvim-lsp-installer'
 
 call plug#end()
 
@@ -172,7 +187,10 @@ filetype plugin indent on
 syntax on
 
 " Themes
-colorscheme dracula
+" colorscheme molokai
+" colorscheme nord
+" colorscheme dracula
+colorscheme rigel
 set background=dark
 
 set encoding=UTF-8
@@ -217,7 +235,8 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
-set foldmethod=indent
+set colorcolumn=80
+" set foldmethod=indent
 set cursorline
 
 " let mapleader="\<space>"
@@ -228,14 +247,17 @@ nnoremap <leader>pi :PlugInstall<cr>
 nnoremap <C-p> :Files<cr>
 " nnoremap <C-f> :Ack<space>
 nnoremap <C-r> :redo<cr><esc>
-nnoremap <C-j> :CtrlSF -filetype react 
-nnoremap <C-f> :CtrlSF                  
+" nnoremap <C-j> :CtrlSF -filetype react 
+nnoremap <leader>j :CtrlSF -filetype ruby
+" nnoremap <C-f> :CtrlSF                  
+nnoremap <leader>f :CtrlSF
 nnoremap <C-o> :CtrlSFOpen<cr>
-nnoremap <C-t> :CtrlSFToggle<CR>
+nnoremap <leader>t :CtrlSFToggle<CR>
 inoremap <C-t> <Esc>:CtrlSFToggle<CR>
+nnoremap <C-f> <ESC>/
 
-nnoremap <C-]> :NERDTreeToggle<cr><esc>
-nnoremap <leader>nt :NERDTreeToggle<cr><esc>
+nnoremap <leader>tn :tabnew<cr><esc>
+nnoremap <leader>nt :NERDTreeToggle <CR><esc>
 nnoremap <C-e> :e<cr>
 nnoremap <C-o> :noh<cr><esc>
 nnoremap <C-s> :w<cr><esc>
@@ -262,9 +284,9 @@ nnoremap <leader>rl :TestLast<CR>
 nnoremap <leader>ra :TestSuite<CR>
 nnoremap <leader>rv :TestVisit<CR>
 
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gr <Plug>(coc-references)
-" nnoremap <C-d> <Plug>(coc-defintion)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
+nnoremap <C-d> <Plug>(coc-defintion)
 
 " nnoremap <silent> K :call <SID>show_documentation()<CR>
 " nnoremap <silent> <leader>co  :<C-u>CocList outline<CR>
@@ -287,10 +309,10 @@ nnoremap <leader>sso :SessionsLoad <cr><esc>
 
 " rust
 " Vim racer
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
+" au FileType rust nmap gd <Plug>(rust-def)
+" au FileType rust nmap gs <Plug>(rust-def-split)
+" au FileType rust nmap gx <Plug>(rust-def-vertical)
+" au FileType rust nmap <leader>gd <Plug>(rust-doc)
 
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
@@ -319,7 +341,6 @@ noremap <leader>cc :zc
 " zM: Close all folds.
 " zo: Open current fold.
 " zc: Close current fold
-"
 
 "" bufferline
 nnoremap <silent><leader>1 <Cmd>BufferLineGoToBuffer 1<CR>
@@ -337,7 +358,16 @@ nnoremap <silent><leader>bp :BufferLineMovePrev<CR>
 
 let g:session_autosave = 'yes'
 
-nnoremap <expr> <leader>n g:NERDTree.IsOpen() ? ':NERDTreeClose<CR>' : @% == '' ? ':NERDTree<CR>' : ':NERDTreeFind<CR>'
+nnoremap <expr> <leader>n g:NERDTree.IsOpen() ? ':NERDTreeClose<CR><ESC>' : @% == '' ? ':NERDTree<CR><ESC>' : ':NERDTreeFind<CR>'
+
+" Copilot
+" let g:copilot#key = '<C-Tab>'
+imap <silent> <C-j> <Plug>(copilot-next)
+imap <silent> <C-k> <Plug>(copilot-previous)
+imap <silent> <C-\> <Plug>(copilot-dismiss)
+imap <silent> <C-Tab> <Plug>(copilot-complete)
+
+
 
 let test#strategy = "vtr"
 
@@ -668,18 +698,18 @@ let g:WebDevIconsOS = 'Darwin'
 " Ralis
 """
 
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-" let g:coc_global_extensions = ['coc-solargraph']
+let g:coc_global_extensions = ['coc-solargraph']
 
 
 " set foldmethod=expr
@@ -713,15 +743,15 @@ lua <<EOF
   }
 EOF
 
-lua <<EOF
- require('telescope').setup{
-    defaults = {
-      preview = false,
-    }
-  }
+" lua <<EOF
+"  require('telescope').setup{
+"     defaults = {
+"       preview = false,
+"     }
+"   }
 
-require('telescope').load_extension('fzf')
-EOF
+"   require('telescope').load_extension('fzf')
+" EOF
 
 lua <<EOF
   require("packer").startup(function()
@@ -835,7 +865,7 @@ EOF
 lua <<EOF
   require('bufferline').setup{
     options = {
-        numbers = "bufferd", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
+        numbers = "none", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
         close_command = "bdelete! %d",       -- can be a string | function, see "Mouse actions"
         right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
         left_mouse_command = "buffer %d",    -- can be a string | function, see "Mouse actions"
@@ -870,8 +900,16 @@ lua <<EOF
         indicator = {
           icon = '▎', -- this should be omitted if indicator style is not 'icon'
           style = 'underline' -- 'icon' | 'underline' | 'none',
+        },
+        offsets = {
+          {
+            filetype = "NERDTree",
+            text = "File Explorer",
+            highlight = "Directory",
+            separator = true, -- use a "true" to enable the default, or set your own character
+          }
         }
-      }
+    }
   }
 EOF
 
@@ -891,7 +929,23 @@ lua << EOF
   require('lspconfig').grammarly.setup{}
   require('lspconfig').golangci_lint_ls.setup{}
 
-  require('lspconfig').solargraph.setup{}
+  require('lspconfig').solargraph.setup{
+    cmd = {"solargraph", "stdio"},
+    filetypes = {"ruby"},
+    init_options = {formatting = true},
+    settings = {
+        solargraph = {
+           autoformat = false,
+           formatting = false,
+           completion = true,
+           diagnostic = true,
+           folding = true,
+           references = true,
+           rename = true,
+           symbols = true
+        }
+    }
+  }
 
   local nvim_lsp = require('lspconfig')
 
@@ -933,10 +987,10 @@ lua << EOF
   local servers = { "solargraph" }
   for _, lsp in ipairs(servers) do
     nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
+            on_attach = on_attach,
+            flags = {
+              debounce_text_changes = 150,
+            }
     }
   end
 
@@ -999,3 +1053,12 @@ EOF
 "     }
 "   })
 " EOF
+"
+
+nnoremap <leader>S <cmd>lua require('spectre').open()<CR>
+
+"search current word
+nnoremap <leader>sw <cmd>lua require('spectre').open_visual({select_word=true})<CR>
+vnoremap <leader>s <esc>:lua require('spectre').open_visual()<CR>
+"search in current file
+nnoremap <leader>sp viw:lua require('spectre').open_file_search()<cr>
